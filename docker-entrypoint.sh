@@ -13,6 +13,13 @@ if [ "$1" = 'pure-ftpd' ]; then
         set -- "$@" -Y 1
     fi
 
+    # http://blog.kaliop.com/en/blog/2015/05/27/docker-in-real-life-the-tricky-parts/#user-ids-mapping
+    if [ -n "$PUREFTP_UID" -a -n "$PUREFTP_GID" ]; then
+        groupmod -o --gid $PUREFTP_GID ftpgroup
+        usermod -o --uid $PUREFTP_UID --gid $PUREFTP_GID ftpuser
+        chown -R ftpuser:ftpgroup /home/ftpuser
+    fi
+
     for user in $(ls -l /home/ftpuser | awk '/^d/{print $9}'); do
         password=PUREFTP_$(echo $user | tr '[:lower:]' '[:upper:]')_PASSWORD
         if [ -z "${!password}" ]; then
@@ -20,7 +27,6 @@ if [ "$1" = 'pure-ftpd' ]; then
             exit 1
         fi
         (echo ${!password}; echo ${!password}) | pure-pw useradd $user -u ftpuser -d /home/ftpuser/$user
-        chown -R ftpuser:ftpgroup /home/ftpuser/$user
     done
 
     pure-pw mkdb

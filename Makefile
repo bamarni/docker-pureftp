@@ -12,7 +12,7 @@ build:
 run:
 	mkdir -p test
 
-	docker run -t --privileged --rm --name ftp\
+	docker run -it --privileged --rm --name ftp\
 		-e PUREFTP_PASSIVE_IP=$(IP)\
 		-p 21:21 -p 40000-40009:40000-40009\
 		-v $(PWD)/test:/home/ftpuser/user -e PUREFTP_USER_PASSWORD=pass\
