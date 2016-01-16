@@ -1,18 +1,13 @@
 # Docker Pure-FTPd
 
-Docker image for [Pure-FTPd](https://www.pureftpd.org/project/pure-ftpd),
-built following instructions [from here](https://help.ubuntu.com/community/PureFTP).
-
-This project is mostly to get familiar with Docker, for more security you should use
-[this image](https://github.com/stilliard/docker-pure-ftpd), which is built from source in a way that doesn't require
-a privileged container.
+Docker image for [Pure-FTPd](https://www.pureftpd.org/project/pure-ftpd).
 
 ## Basic usage
 
 With a single user :
 
 ```
-docker run -d --privileged\
+docker run -d \
     -e PUREFTP_PASSIVE_IP=XXX.X.XX.X\
     -p 21:21 -p 40000-40009:40000-40009\
     -e PUREFTP_USER=user -e PUREFTP_PASSWORD=pass\
@@ -26,7 +21,7 @@ docker run -d --privileged\
 If you want to expose an existing directory from your machine, you can use a volume :
 
 ```
-docker run -d --privileged\
+docker run -d \
     -e PUREFTP_PASSIVE_IP=XXX.X.XX.X\
     -p 21:21 -p 40000-40009:40000-40009\
     -v /path/in/host:/home/ftpuser/bob -e PUREFTP_BOB_PASSWORD=bobpass\
@@ -49,7 +44,7 @@ To allow FTP over TLS, you can provide a certificate.
 The first solution is to create a self-signed certificate, you can provide the certificate subject like this :
 
 ```
-docker run -d --privileged\
+docker run -d \
     -e PUREFTP_PASSIVE_IP=example.org\
     -p 21:21 -p 40000-40009:40000-40009\
     -e PUREFTP_CERT_SUBJ="/C=FR/O=My company/CN=example.org"\
@@ -62,7 +57,7 @@ docker run -d --privileged\
 You can instead mount a certificate from the host :
 
 ```
-docker run -d --privileged\
+docker run -d \
     -e PUREFTP_PASSIVE_IP=example.org\
     -p 21:21 -p 40000-40009:40000-40009\
     -v /path/to/host/certificate:/etc/ssl/private/pure-ftpd.pem\

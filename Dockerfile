@@ -1,6 +1,22 @@
 FROM debian:jessie
 
-RUN apt-get update && apt-get -y install pure-ftpd openssl && rm -rf /var/lib/apt/lists/*
+ENV PUREFTP_VERSION 1.0.42
+
+RUN apt-get update
+
+RUN apt-get -y install wget build-essential libssl-dev openssl \
+    && cd /tmp \
+    && wget ftp://ftp.pureftpd.org/pub/pure-ftpd/releases/pure-ftpd-$PUREFTP_VERSION.tar.gz \
+    && tar zxvf pure-ftpd-$PUREFTP_VERSION.tar.gz \
+    && cd pure-ftpd-$PUREFTP_VERSION \
+    && ./configure \
+        --with-altlog \
+        --with-puredb \
+        --with-tls \
+        --without-capabilities \
+    && make \
+    && make install \
+    && rm -rf /var/lib/apt/lists/* /tmp*
 
 RUN groupadd ftpgroup && useradd -g ftpgroup -d /home/ftpuser -m -s /dev/null ftpuser
 
