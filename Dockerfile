@@ -7,6 +7,9 @@ RUN apt-get update
 RUN apt-get -y install wget build-essential libssl-dev openssl \
     && cd /tmp \
     && wget ftp://ftp.pureftpd.org/pub/pure-ftpd/releases/pure-ftpd-$PUREFTP_VERSION.tar.gz \
+    && wget ftp://ftp.pureftpd.org/pub/pure-ftpd/releases/pure-ftpd-$PUREFTP_VERSION.tar.gz.sig \
+    && gpg --keyserver keys.gnupg.net --recv-keys 2B6F76DA \
+    && gpg --verify pure-ftpd-$PUREFTP_VERSION.tar.gz.sig \
     && tar zxvf pure-ftpd-$PUREFTP_VERSION.tar.gz \
     && cd pure-ftpd-$PUREFTP_VERSION \
     && ./configure \
