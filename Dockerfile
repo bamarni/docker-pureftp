@@ -1,10 +1,9 @@
 FROM debian:jessie
 
-ENV PUREFTP_VERSION 1.0.42
+ARG PUREFTP_VERSION
 
-RUN apt-get update
-
-RUN apt-get -y install wget build-essential libssl-dev openssl \
+RUN apt-get update \
+    && apt-get -y install wget build-essential libssl-dev openssl \
     && cd /tmp \
     && wget ftp://ftp.pureftpd.org/pub/pure-ftpd/releases/pure-ftpd-$PUREFTP_VERSION.tar.gz \
     && wget ftp://ftp.pureftpd.org/pub/pure-ftpd/releases/pure-ftpd-$PUREFTP_VERSION.tar.gz.sig \
@@ -19,11 +18,10 @@ RUN apt-get -y install wget build-essential libssl-dev openssl \
         --without-capabilities \
     && make \
     && make install \
-    && rm -rf /var/lib/apt/lists/* /tmp*
-
-RUN groupadd ftpgroup && useradd -g ftpgroup -d /home/ftpuser -m -s /dev/null ftpuser
-
-RUN mkdir -p /etc/ssl/private/
+    && apt-get -y purge wget build-essential libssl-dev \
+    && rm -rf /var/lib/apt/lists/* /tmp/* \
+    && groupadd ftpgroup && useradd -g ftpgroup -d /home/ftpuser -m -s /dev/null ftpuser \
+    && mkdir -p /etc/ssl/private
 
 VOLUME /home/ftpuser
 

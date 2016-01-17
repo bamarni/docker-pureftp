@@ -1,13 +1,14 @@
 NS = bamarni
 REPO = pureftp
 VERSION ?= latest
+PUREFTP_VERSION ?= 1.0.42
 PWD ?= $(shell pwd)
 IP ?= $(shell docker-machine ip dev)
 
 .PHONY: build run push
 
 build:
-	docker build -t $(NS)/$(REPO):$(VERSION) .
+	docker build --no-cache --build-arg PUREFTP_VERSION=$(PUREFTP_VERSION) -t $(NS)/$(REPO):$(VERSION) .
 
 run:
 	mkdir -p test
