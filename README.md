@@ -64,8 +64,3 @@ docker run -d \
     -e PUREFTP_USER=user -e PUREFTP_PASSWORD=pass\
     bamarni/pureftp
 ```
-
-## Todo
-
-* allow to set different UID/GID mappings for each FTP user.
-* enable logging for access / errors so they can be seen with `docker logs` command.
