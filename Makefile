@@ -13,10 +13,11 @@ build:
 run:
 	mkdir -p test
 
-	docker run -it --rm --name ftp\
-		-e PUREFTP_PASSIVE_IP=$(IP)\
-		-p 21:21 -p 40000-40009:40000-40009\
-		-v $(PWD)/test:/home/ftpuser/user -e PUREFTP_USER_PASSWORD=pass\
+	docker run -it --rm --name ftp \
+		-e PUREFTP_PASSIVE_IP=$(IP) \
+		-p 21:21 -p 40000-40009:40000-40009 \
+		-v $(PWD)/docker-entrypoint.sh:/entrypoint.sh \
+		-v $(PWD)/test:/home/ftpuser/user -e PUREFTP_USER_PASSWORD=pass \
 		$(NS)/$(REPO):$(VERSION)
 
 bash:

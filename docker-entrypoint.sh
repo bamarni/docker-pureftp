@@ -38,11 +38,15 @@ if [ "$1" = 'pure-ftpd' ]; then
         chown -R ftpuser:ftpgroup /home/ftpuser
     fi
 
+    mkfifo /var/log/pureftpd.log
+    tail -f /var/log/pureftpd.log &
+
     exec "$@" -E -R \
         -l puredb:/etc/pureftpd.pdb \
         -P $PUREFTP_PASSIVE_IP \
         -p 40000:40009 \
-        -f none
+        -f none \
+        -O clf:/var/log/pureftpd.log
 else
     exec "$@"
 fi
