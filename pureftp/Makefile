@@ -21,7 +21,7 @@ run:
 		$(NS)/$(REPO):$(VERSION)
 
 bash:
-	docker run -it --rm --name ftp $(NS)/$(REPO):$(VERSION) bash
+	docker run -it --rm $(NS)/$(REPO):$(VERSION) bash
 
 push:
 	docker push $(NS)/$(REPO):$(VERSION)

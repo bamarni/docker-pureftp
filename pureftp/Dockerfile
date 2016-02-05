@@ -25,7 +25,7 @@ RUN apt-get update \
 
 VOLUME /home/ftpuser
 
-COPY docker-entrypoint.sh /entrypoint.sh
+COPY entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 
 CMD ["pure-ftpd"]
