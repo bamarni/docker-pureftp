@@ -44,6 +44,9 @@ if [ "$1" = 'pure-ftpd' ]; then
         chown -R ftpuser:ftpgroup /home/ftpuser
     fi
 
+    echo "Symlinking /dev/log for Syslog..."
+    ln -sf /var/run/rsyslog/dev/log /dev/log
+
     echo "Preparing FIFO for access logs..."
     mkfifo /var/log/pureftpd.log
     tail -f /var/log/pureftpd.log &
@@ -53,7 +56,6 @@ if [ "$1" = 'pure-ftpd' ]; then
         -l puredb:/etc/pureftpd.pdb \
         -P $PUREFTP_PASSIVE_IP \
         -p 40000:40009 \
-        -f none \
         -O clf:/var/log/pureftpd.log
 else
     exec "$@"

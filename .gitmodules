@@ -1,0 +1,3 @@
+[submodule "rsyslog"]
+	path = rsyslog
+	url = git@github.com:helderco/docker-rsyslog.git
