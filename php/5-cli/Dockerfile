@@ -1,3 +1,6 @@
+# auto-generated
+
+FROM php:5-cli
 
 # Dependencies
 #   bz2 extension :       libbz2-dev

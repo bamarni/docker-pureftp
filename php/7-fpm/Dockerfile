@@ -1,3 +1,6 @@
+# auto-generated
+
+FROM php:7-fpm
 
 # Dependencies
 #   bz2 extension :       libbz2-dev

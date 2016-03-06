@@ -1,6 +1,6 @@
 # auto-generated
 
-FROM php:5-cli
+FROM php:5-fpm
 
 # Dependencies
 #   bz2 extension :       libbz2-dev
@@ -32,9 +32,8 @@ RUN apt-get update \
         soap \
         sockets \
         zip \
-    && echo "memory_limit=-1" > $PHP_INI_DIR/conf.d/memory-limit.ini \
-    && echo "opcache.enable_cli=1" >> $PHP_INI_DIR/conf.d/docker-php-ext-opcache.ini \
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
+    && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
 COPY php.ini $PHP_INI_DIR/conf.d/php.ini

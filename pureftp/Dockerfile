@@ -19,6 +19,7 @@ RUN apt-get update \
     && make \
     && make install \
     && apt-get -y purge wget build-essential libssl-dev \
+    && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* \
     && groupadd ftpgroup && useradd -g ftpgroup -d /home/ftpuser -m -s /dev/null ftpuser \
     && mkdir -p /etc/ssl/private
