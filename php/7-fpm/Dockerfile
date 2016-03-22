@@ -5,7 +5,7 @@ FROM php:7-fpm
 # Dependencies
 #   bz2 extension :       libbz2-dev
 #   composer :            git (to install packages from source)
-#   gd extension :        libpng12-dev
+#   gd extension :        libfreetype6-dev libjpeg-dev libpng12-dev
 #   intl extension :      libicu-dev
 #   pdo_pgsql extension : libpq-dev
 #   soap extension :      libxml2-dev
@@ -15,11 +15,18 @@ RUN apt-get update \
     && apt-get -y install \
         git \
         libbz2-dev \
+        libfreetype6-dev \
         libicu-dev \
+        libjpeg-dev \
         libpng12-dev \
         libpq-dev \
         libxml2-dev \
         zlib1g-dev \
+    && docker-php-ext-configure gd \
+        --enable-gd-native-ttf \
+        --with-freetype-dir=/usr/include/freetype2 \
+        --with-jpeg-dir=/usr/include \
+        --with-png-dir=/usr/include \
     && docker-php-ext-configure intl \
     && docker-php-ext-install \
         bz2 \
