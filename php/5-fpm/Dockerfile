@@ -48,3 +48,4 @@ COPY php.ini $PHP_INI_DIR/conf.d/php.ini
 VOLUME /root/.composer
 
 ENV PATH="/root/.composer/vendor/bin:$PATH"
+ENV COMPOSER_DISABLE_ROOT_WARN=1
