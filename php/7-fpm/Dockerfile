@@ -1,5 +1,3 @@
-# auto-generated
-
 FROM php:7-fpm
 
 # Dependencies
@@ -48,4 +46,4 @@ COPY php.ini $PHP_INI_DIR/conf.d/php.ini
 VOLUME /root/.composer
 
 ENV PATH="/root/.composer/vendor/bin:$PATH"
-ENV COMPOSER_DISABLE_ROOT_WARN=1
+ENV COMPOSER_ALLOW_SUPERUSER=1

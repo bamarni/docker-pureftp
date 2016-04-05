@@ -1,13 +1,11 @@
-NS = bamarni
-REPO = php
-PHP_VERSION ?= 7
-PHP_SAPI ?= cli
+TAG ?= 7-cli
 
 .PHONY: build
 
 build:
-	mkdir -p $(PHP_VERSION)-$(PHP_SAPI)
-	echo "# auto-generated\n\nFROM php:$(PHP_VERSION)-$(PHP_SAPI)" | cat - Dockerfile.template > $(PHP_VERSION)-$(PHP_SAPI)/Dockerfile
-	docker build --no-cache -f $(PHP_VERSION)-$(PHP_SAPI)/Dockerfile -t $(NS)/$(REPO):$(PHP_VERSION)-$(PHP_SAPI) .
-
+	for tag in "7-cli" "7-fpm" "5-cli" "5-fpm" ; do \
+		mkdir -p $$tag; \
+		cp php.ini $$tag/php.ini; \
+		TAG=$$tag dockplate < Dockerfile.template > $$tag/Dockerfile; \
+	done
 default: build
