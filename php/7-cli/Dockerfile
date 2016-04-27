@@ -37,13 +37,14 @@ RUN apt-get update \
         soap \
         sockets \
         zip \
-    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
+    && mkdir /root/bin \
+    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/root/bin --filename=composer \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
 COPY php.ini $PHP_INI_DIR/conf.d/php.ini
 
-VOLUME /root/.composer
+VOLUME ["/root/bin", "/root/.composer"]
 
-ENV PATH="/root/.composer/vendor/bin:$PATH"
+ENV PATH="/root/bin:/root/.composer/vendor/bin:$PATH"
 ENV COMPOSER_ALLOW_SUPERUSER=1
