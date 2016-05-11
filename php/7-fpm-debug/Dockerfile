@@ -1,4 +1,4 @@
-FROM php:5-fpm
+FROM php:7-fpm
 
 # Dependencies
 #   bz2 extension :       libbz2-dev
@@ -44,6 +44,12 @@ RUN apt-get update \
 
 COPY php.ini $PHP_INI_DIR/conf.d/php.ini
 
+
+RUN pecl install xdebug \
+    && echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)" > $PHP_INI_DIR/conf.d/xdebug.ini \
+    && echo "xdebug.remote_enable=on" >> $PHP_INI_DIR/conf.d/xdebug.ini \
+    && echo "xdebug.remote_connect_back=on" >> $PHP_INI_DIR/conf.d/xdebug.ini \
+    && echo "xdebug.remote_autostart=on" >> $PHP_INI_DIR/conf.d/xdebug.ini
 
 
 VOLUME ["/root/bin", "/root/.composer"]

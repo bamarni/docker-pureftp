@@ -7,5 +7,8 @@ build:
 		mkdir -p $$tag; \
 		cp php.ini $$tag/php.ini; \
 		TAG=$$tag dockplate < Dockerfile.template > $$tag/Dockerfile; \
+		cp -R $$tag $$tag-debug; \
+		TAG=$$tag XDEBUG=1 dockplate < Dockerfile.template > $$tag-debug/Dockerfile; \
 	done
+
 default: build
