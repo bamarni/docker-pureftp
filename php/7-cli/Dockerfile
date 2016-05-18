@@ -38,7 +38,10 @@ RUN apt-get update \
         sockets \
         zip \
     && mkdir /root/bin \
-    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/root/bin --filename=composer \
+    && echo "$(curl -sS https://composer.github.io/installer.sig) -" > composer-setup.php.sig \
+    && curl -sS https://getcomposer.org/installer | tee composer-setup.php | sha384sum -c composer-setup.php.sig \
+    && php composer-setup.php -- --install-dir=/root/bin --filename=composer \
+    && rm composer-setup.php composer-setup.php.sig \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
