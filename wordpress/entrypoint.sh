@@ -133,7 +133,7 @@ $stderr = fopen('php://stderr', 'w');
 
 list($host, $port) = explode(':', $argv[1], 2);
 
-$maxTries = 10;
+$maxTries = 20;
 do {
 	$mysql = new mysqli($host, $argv[2], $argv[3], '', (int)$port);
 	if ($mysql->connect_error) {
