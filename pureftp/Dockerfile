@@ -24,8 +24,6 @@ RUN apt-get update \
     && groupadd ftpgroup && useradd -g ftpgroup -d /home/ftpuser -m -s /dev/null ftpuser \
     && mkdir -p /etc/ssl/private
 
-VOLUME /home/ftpuser
-
 COPY entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 

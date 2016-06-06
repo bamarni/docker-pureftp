@@ -20,7 +20,7 @@ if [ "$1" = 'pure-ftpd' ]; then
         echo "Adding user \"$PUREFTP_USER\"..."
         mkdir /home/ftpuser/$PUREFTP_USER
         chown ftpuser:ftpgroup /home/ftpuser/$PUREFTP_USER
-        (echo $PUREFTP_PASSWORD; echo $PUREFTP_PASSWORD) | pure-pw useradd $PUREFTP_USER -u ftpuser -d /home/ftpuser/$PUREFTP_USER
+        pure-pw show $user || (echo $PUREFTP_PASSWORD; echo $PUREFTP_PASSWORD) | pure-pw useradd $PUREFTP_USER -u ftpuser -d /home/ftpuser/$PUREFTP_USER
     else
         for user in $(ls -l /home/ftpuser | awk '/^d/{print $9}'); do
             echo "Adding user \"$user\"..."
@@ -29,7 +29,7 @@ if [ "$1" = 'pure-ftpd' ]; then
                 echo >&2 "$password is not defined."
                 exit 1
             fi
-            (echo ${!password}; echo ${!password}) | pure-pw useradd $user -u ftpuser -d /home/ftpuser/$user >/dev/null
+            pure-pw show $user || (echo ${!password}; echo ${!password}) | pure-pw useradd $user -u ftpuser -d /home/ftpuser/$user >/dev/null
         done
     fi
 
@@ -48,7 +48,7 @@ if [ "$1" = 'pure-ftpd' ]; then
     ln -sf /var/run/rsyslog/dev/log /dev/log
 
     echo "Preparing FIFO for access logs..."
-    mkfifo /var/log/pureftpd.log
+    [[ -p /var/log/pureftpd.log ]] || mkfifo /var/log/pureftpd.log
     tail -f /var/log/pureftpd.log &
 
     echo "Starting Pure-FTPd..."

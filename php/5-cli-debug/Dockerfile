@@ -41,9 +41,8 @@ RUN apt-get update \
     && echo "$(curl -sS https://composer.github.io/installer.sig) -" > composer-setup.php.sig \
     && curl -sS https://getcomposer.org/installer | tee composer-setup.php | sha384sum -c composer-setup.php.sig \
     && php composer-setup.php -- --install-dir=/root/bin --filename=composer \
-    && rm composer-setup.php composer-setup.php.sig \
     && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf composer-setup.php* /var/lib/apt/lists/*
 
 COPY php.ini $PHP_INI_DIR/conf.d/php.ini
 
@@ -54,8 +53,6 @@ RUN pecl install xdebug \
     && echo "xdebug.remote_connect_back=on" >> $PHP_INI_DIR/conf.d/xdebug.ini \
     && echo "xdebug.remote_autostart=on" >> $PHP_INI_DIR/conf.d/xdebug.ini
 
-
-VOLUME ["/root/bin", "/root/.composer"]
 
 ENV PATH="/root/bin:/root/.composer/vendor/bin:$PATH"
 ENV COMPOSER_ALLOW_SUPERUSER=1

@@ -8,7 +8,7 @@ IP ?= $(shell docker-machine ip dev)
 .PHONY: build run push
 
 build:
-	docker build --no-cache --build-arg PUREFTP_VERSION=$(PUREFTP_VERSION) -t $(NS)/$(REPO):$(VERSION) .
+	docker build --build-arg PUREFTP_VERSION=$(PUREFTP_VERSION) -t $(NS)/$(REPO):$(VERSION) .
 
 run:
 	mkdir -p test
