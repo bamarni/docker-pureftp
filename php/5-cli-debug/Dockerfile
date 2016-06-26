@@ -41,6 +41,11 @@ RUN apt-get update \
     && echo "$(curl -sS https://composer.github.io/installer.sig) -" > composer-setup.php.sig \
     && curl -sS https://getcomposer.org/installer | tee composer-setup.php | sha384sum -c composer-setup.php.sig \
     && php composer-setup.php -- --install-dir=/root/bin --filename=composer \
+    && curl -sSL https://github.com/krallin/tini/releases/download/v0.9.0/tini > /usr/bin/tini \
+    && curl -sSL https://github.com/krallin/tini/releases/download/v0.9.0/tini.asc > /usr/bin/tini.asc \
+    && gpg --keyserver ha.pool.sks-keyservers.net --recv-keys 0527A9B7 \
+    && gpg --verify /usr/bin/tini.asc && rm /usr/bin/tini.asc \
+    && chmod +x /usr/bin/tini \
     && apt-get clean \
     && rm -rf composer-setup.php* /var/lib/apt/lists/*
 
