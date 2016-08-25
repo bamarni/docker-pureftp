@@ -1,6 +1,6 @@
 FROM debian:jessie
 
-ARG PUREFTP_VERSION
+ARG PUREFTP_VERSION=1.0.43
 
 RUN apt-get update \
     && apt-get -y install wget build-essential libssl-dev openssl \
