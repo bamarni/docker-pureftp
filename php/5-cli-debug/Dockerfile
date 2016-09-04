@@ -57,6 +57,7 @@ RUN pecl install xdebug \
     && echo "xdebug.remote_enable=on" >> $PHP_INI_DIR/conf.d/xdebug.ini \
     && echo "xdebug.remote_connect_back=on" >> $PHP_INI_DIR/conf.d/xdebug.ini \
     && echo "xdebug.remote_autostart=on" >> $PHP_INI_DIR/conf.d/xdebug.ini
+ENV COMPOSER_DISABLE_XDEBUG_WARN=1
 
 
 ENV PATH="/root/bin:/root/.composer/vendor/bin:$PATH"

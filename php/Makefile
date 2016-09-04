@@ -1,5 +1,3 @@
-TAG ?= 7-cli
-
 .PHONY: build
 
 build:
