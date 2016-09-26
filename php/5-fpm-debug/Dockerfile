@@ -27,6 +27,7 @@ RUN apt-get update \
         --with-png-dir=/usr/include \
     && docker-php-ext-configure intl \
     && docker-php-ext-install \
+        bcmath \
         bz2 \
         gd \
         intl \
