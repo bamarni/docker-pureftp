@@ -38,7 +38,8 @@ RUN apt-get update \
         soap \
         sockets \
         zip \
-    && pecl install mongodb \
+    && pecl install hrtime mongodb \
+    && echo "extension=hrtime.so" > $PHP_INI_DIR/conf.d/hrtime.ini \
     && echo "extension=mongodb.so" > $PHP_INI_DIR/conf.d/mongodb.ini \
     && mkdir /root/bin \
     && echo "$(curl -sS https://composer.github.io/installer.sig) -" > composer-setup.php.sig \
