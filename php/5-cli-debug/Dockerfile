@@ -38,9 +38,11 @@ RUN apt-get update \
         soap \
         sockets \
         zip \
-    && pecl install hrtime mongodb \
+    && yes "" | pecl install apcu hrtime mongodb redis \
+    && echo "extension=apcu.so" > $PHP_INI_DIR/conf.d/apcu.ini \
     && echo "extension=hrtime.so" > $PHP_INI_DIR/conf.d/hrtime.ini \
     && echo "extension=mongodb.so" > $PHP_INI_DIR/conf.d/mongodb.ini \
+    && echo "extension=redis.so" > $PHP_INI_DIR/conf.d/redis.ini \
     && mkdir /root/bin \
     && echo "$(curl -sS https://composer.github.io/installer.sig) -" > composer-setup.php.sig \
     && curl -sS https://getcomposer.org/installer | tee composer-setup.php | sha384sum -c composer-setup.php.sig \
