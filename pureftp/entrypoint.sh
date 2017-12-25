@@ -16,6 +16,14 @@ if [ "$1" = 'pure-ftpd' ]; then
         set -- "$@" -Y 1
     fi
 
+    # http://blog.kaliop.com/en/blog/2015/05/27/docker-in-real-life-the-tricky-parts/#user-ids-mapping
+    if [ -n "$PUREFTP_UID" -a -n "$PUREFTP_GID" ]; then
+        echo "Configuring user mapping..."
+        groupmod -o --gid $PUREFTP_GID ftpgroup
+        usermod -o --uid $PUREFTP_UID --gid $PUREFTP_GID ftpuser
+        chown -R ftpuser:ftpgroup /home/ftpuser
+    fi
+
     if [ -n "$PUREFTP_USER" -a -n "$PUREFTP_PASSWORD" ]; then
         echo "Adding user \"$PUREFTP_USER\"..."
         mkdir /home/ftpuser/$PUREFTP_USER
@@ -29,20 +37,12 @@ if [ "$1" = 'pure-ftpd' ]; then
                 echo >&2 "$password is not defined."
                 exit 1
             fi
-            pure-pw show $user || (echo ${!password}; echo ${!password}) | pure-pw useradd $user -u ftpuser -d /home/ftpuser/$user >/dev/null
+            pure-pw show $user || (echo ${!password}; echo ${!password}) | pure-pw useradd $user -u ftpuser -g ftpgroup -d /home/ftpuser/$user >/dev/null
         done
     fi
 
     echo "Creating users database..."
     pure-pw mkdb
-
-    # http://blog.kaliop.com/en/blog/2015/05/27/docker-in-real-life-the-tricky-parts/#user-ids-mapping
-    if [ -n "$PUREFTP_UID" -a -n "$PUREFTP_GID" ]; then
-        echo "Configuring user mapping..."
-        groupmod -o --gid $PUREFTP_GID ftpgroup
-        usermod -o --uid $PUREFTP_UID --gid $PUREFTP_GID ftpuser
-        chown -R ftpuser:ftpgroup /home/ftpuser
-    fi
 
     echo "Symlinking /dev/log for Syslog..."
     ln -sf /var/run/rsyslog/dev/log /dev/log
@@ -56,6 +56,7 @@ if [ "$1" = 'pure-ftpd' ]; then
         -l puredb:/etc/pureftpd.pdb \
         -P $PUREFTP_PASSIVE_IP \
         -p 40000:40009 \
+        -u ${PUREFTP_MIN_UID:-1000} \
         -O clf:/var/log/pureftpd.log
 else
     exec "$@"
