@@ -38,12 +38,13 @@ RUN apt-get update \
         soap \
         sockets \
         zip \
-    && yes "" | pecl install apcu hrtime mongodb redis \
+    && yes "" | pecl install apcu apcu_bc-beta hrtime mongodb redis \
     && echo "extension=apcu.so" > $PHP_INI_DIR/conf.d/apcu.ini \
+    && echo "extension=apc.so" > $PHP_INI_DIR/conf.d/apcu_bc.ini \
     && echo "extension=hrtime.so" > $PHP_INI_DIR/conf.d/hrtime.ini \
     && echo "extension=mongodb.so" > $PHP_INI_DIR/conf.d/mongodb.ini \
     && echo "extension=redis.so" > $PHP_INI_DIR/conf.d/redis.ini \
-    && mkdir /root/bin \
+    && chmod +x /root && mkdir /root/bin \
     && echo "$(curl -sS https://composer.github.io/installer.sig) -" > composer-setup.php.sig \
     && curl -sS https://getcomposer.org/installer | tee composer-setup.php | sha384sum -c composer-setup.php.sig \
     && php composer-setup.php -- --install-dir=/root/bin --filename=composer \
@@ -55,4 +56,4 @@ COPY php.ini $PHP_INI_DIR/conf.d/php.ini
 
 
 ENV PATH="/root/bin:/root/.composer/vendor/bin:$PATH"
-ENV COMPOSER_ALLOW_SUPERUSER=1
+ENV COMPOSER_ALLOW_SUPERUSER=1 COMPOSER_HOME=/root/.composer
