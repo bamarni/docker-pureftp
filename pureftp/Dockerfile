@@ -1,4 +1,4 @@
-FROM debian:jessie
+FROM debian:stretch
 
 ARG PUREFTP_VERSION=1.0.45
 
