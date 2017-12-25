@@ -1,7 +1,7 @@
 NS = bamarni
 REPO = pureftp
 VERSION ?= latest
-PUREFTP_VERSION ?= 1.0.43
+PUREFTP_VERSION ?= 1.0.46
 PWD ?= $(shell pwd)
 IP ?= $(shell docker-machine ip dev)
 

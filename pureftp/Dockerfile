@@ -1,6 +1,6 @@
 FROM debian:stretch
 
-ARG PUREFTP_VERSION=1.0.45
+ARG PUREFTP_VERSION=1.0.46
 
 RUN apt-get update \
     && apt-get -y install wget build-essential libssl-dev openssl \
